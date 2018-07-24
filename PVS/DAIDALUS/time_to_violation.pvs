@@ -42,6 +42,8 @@ time_to_violation : THEORY
 
  TTVL: TYPE = list[[Aircraft, [real,real], bool]]
 
+% at = alert time
+% lat = late alert time
  aircraft_and_ttv_list(cd:ConfDetector, at:nnreal, lat:nnreal, own:Aircraft, traffic:Traffic): TTVL = 
     map(LAMBDA(ac:Aircraft):
         LET eeint = cd(0, lat, own, ac), 

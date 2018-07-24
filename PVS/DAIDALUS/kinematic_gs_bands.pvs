@@ -46,6 +46,8 @@ BEGIN
     bank, speed, radius, omega: VAR posreal
     sbank, alpha, beta: VAR real
     t, tt: VAR posreal
+    % so = ownship position
+    % vo = ownship velocity
     so, vo: VAR Vect3
     AL: VAR AircraftList
     % We only check criteria against most urgent aircraft
@@ -105,18 +107,61 @@ BEGIN
       most_urgent(so,vo,AL)<length(AL)),epsH,epsV,UseHCrit,UseVCrit,a,mings,maxgs)
         (B,T,B2,T2:nnreal,step:posreal): list[RealBand] =
 	  LET kvb = kinematic_gs_bands_init(LOS,CD,LOS2,CD2,UseLOS2,so,vo,AL,most_urgent,epsH,epsV,UseHCrit,UseVCrit,a,mings,maxgs)(B,T,B2,T2,step)
-	  IN intersect(kvb,mings,maxgs)
+	  IN intersect(kvb,mings,maxgs);
 
-    kinematic_gs_bands_def: LEMMA sqv(vect2(vo))>0 AND most_urgent(so,vo,AL)>=0 AND 
-      most_urgent(so,vo,AL)<length(AL) AND detector?(LOS)(CD) AND detector?(LOS2)(CD2) AND gsAccel(so,vo,0,-a)=(so,vo) AND
-      gsAccel(so,vo,0,a)=(so,vo) AND mings<=gs(vo) AND gs(vo)<=maxgs IMPLIES
+    kinematic_gs_bands_def_pre_elim1: SUBLEMMA
+      mings<=gs(vo) AND gs(vo)<=maxgs IMPLIES sqv(vect2(vo))>0;
+
+    kinematic_gs_bands_def_pre_elim2: SUBLEMMA
+      gsAccel(so,vo,0,-a)=(so,vo) AND gsAccel(so,vo,0,a)=(so,vo);
+
+    kinematic_gs_bands_def: LEMMA
+      % FORALL (vo,so: Vect3,
+      %         most_urgent: [[Vect3,Vect3,AircraftList]->int],
+      %         AL: AircraftList,
+      %         LOS: [[Vect3,Vect3,Vect3,Vect3]->bool],
+      %         CD: [[nnreal,nnreal,Vect3,Vect3,Vect3,Vect3]->bool],
+      %         LOS2: [[Vect3,Vect3,Vect3,Vect3]->bool],
+      %         CD2: [[nnreal,nnreal,Vect3,Vect3,Vect3,Vect3]->bool],
+      %         a: posreal, % a is scalar acceleration
+      %         mings, maxgs: posreal,
+      %         UseLOS2: bool,
+      %         epsH, epsV: sign,
+      %         UseHCrit, UseVCrit: bool,
+      %         dir: Sign,
+      %         B,T,B2,T2: nnreal,
+      %         step: posreal)
+      % IF the horizontal velocity of the ownship is non-zero
+      sqv(vect2(vo))>0 AND
+      % AND most_urgent(so,vo,AL) returns a value between 0 and length(AL)-1
+      most_urgent(so,vo,AL)>=0 AND most_urgent(so,vo,AL)<length(AL) AND
+      % AND CD and CD2 are valid conflict detectors relative to LOS and LOS2
+      % (detector? is a predicate defined in int_bands)
+      detector?(LOS)(CD) AND detector?(LOS2)(CD2) AND
+      % (gsAccel is defined in nasalib/aviation@kinematics_gs_accel)
+      % AND if position and velocity do not change for a pos/negative acceleration
+      %     but a zero time-interval
+      gsAccel(so,vo,0,-a)=(so,vo) AND gsAccel(so,vo,0,a)=(so,vo) AND
+      % The horizontal groundspeed is between mings and maxgs
+      % (This should imply sqv(vect2(vo))>0)
+      mings<=gs(vo) AND gs(vo)<=maxgs
+      IMPLIES
+      % ktb are the kinematic bands we wish to verify
       LET ktb = kinematic_gs_bands(LOS,CD,LOS2,CD2,UseLOS2,so,vo,AL,most_urgent,epsH,epsV,UseHCrit,UseVCrit,a,mings,maxgs)(B,T,B2,T2,step)
       IN FORALL (j:nat):
+        % newgs is discretized to allow for more general evaluation
         LET newgs = gs(vo)+dir*j*step IN
 	  mings<=newgs AND newgs<=maxgs AND
+          % conflict_step is defined in the int_bands theory
+          % the function determines whether there will be a conflict in
+          % j*step time, if j*step is between B and T (or B2 and T2 if
+          % you're using LOS2)
 	  conflict_step(LOS,LOS2,UseLOS2,B,T,B2,T2,so,vo,LAMBDA (tt:nnreal): gsAccel(so,vo,tt,dir*a),step/a,AL,most_urgent,
 		epsH,epsV,UseHCrit,UseVCrit)(j)
           IMPLIES
+          % if there's a conflict in j*step time, then the current ground speed is not in any of the
+          % generated kinematic bands
+          % in? is defined in theory int_bands
 	  (NOT EXISTS (i:below(length(ktb))): in?(nth(ktb,i),newgs))
 
 

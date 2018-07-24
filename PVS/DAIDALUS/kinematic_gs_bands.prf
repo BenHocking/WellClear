@@ -49,7 +49,10 @@
      real_props nil)
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_div_nzreal_is_real application-judgement "real" reals nil))
-   nil))
+   nil
+   (kinematic_gs_bands_init subtype
+    "real_defs.max(floor_ceil.ceiling(number_fields./(((number_fields.-)(Velocity.gs(kinematic_gs_bands.vo), kinematic_gs_bands.mings)), kinematic_gs_bands.step)), 0)"
+    "nat")))
  (kinematic_gs_bands_init_TCC2 0
   (kinematic_gs_bands_init_TCC2-1 nil 3683460933
    ("" (subtype-tcc) nil nil)
@@ -112,7 +115,10 @@
     (gs const-decl "nnreal" Velocity "aviation/")
     (real_times_real_is_real application-judgement "real" reals nil)
     (real_minus_real_is_real application-judgement "real" reals nil))
-   nil))
+   nil
+   (kinematic_gs_bands_init subtype
+    "real_defs.max(floor_ceil.ceiling(number_fields./(((number_fields.-)(kinematic_gs_bands.maxgs, Velocity.gs(kinematic_gs_bands.vo))), kinematic_gs_bands.step)), 0)"
+    "nat")))
  (kinematic_gs_bands_init_TCC3 0
   (kinematic_gs_bands_init_TCC3-1 nil 3683460933
    ("" (subtype-tcc) nil nil)
@@ -136,7 +142,9 @@
      nil)
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_times_real_is_real application-judgement "real" reals nil))
-   nil))
+   nil
+   (kinematic_gs_bands_init subtype "kinematic_gs_bands.AL"
+    "{AL | reals.>(list_props[int_bands.Aircraft].length(combine_bands.AL), 0)}")))
  (kinematic_gs_bands_init_increasing_TCC1 0
   (kinematic_gs_bands_init_increasing_TCC1-1 nil 3634315170
    ("" (subtype-tcc) nil nil)
@@ -172,7 +180,10 @@
     (+ const-decl "Vector" vectors_3D "vectors/")
     (detector? const-decl "bool" int_bands nil)
     (real_times_real_is_real application-judgement "real" reals nil))
-   nil))
+   nil
+   (kinematic_gs_bands_init_increasing subtype
+    "kinematic_gs_bands.most_urgent"
+    "{most_urgent | booleans.AND(reals.>=(kinematic_gs_bands.most_urgent(kinematic_gs_bands.so, kinematic_gs_bands.vo, kinematic_gs_bands.AL), 0), reals.<(kinematic_gs_bands.most_urgent(kinematic_gs_bands.so, kinematic_gs_bands.vo, kinematic_gs_bands.AL), list_props[int_bands.Aircraft].length(kinematic_gs_bands.AL)))}")))
  (kinematic_gs_bands_init_increasing 0
   (kinematic_gs_bands_init_increasing-1 nil 3634315609
    ("" (skeep*)
@@ -519,9 +530,9 @@
     (+ const-decl "Vector" vectors_2D "vectors/")
     (* const-decl "Vector" vectors_2D "vectors/")
     (Hat const-decl "{v: Vect2 |
-         (v = zero IFF w = zero) AND
-          (w /= zero IFF (norm(v) = 1 AND v = (1 / norm(w)) * w))}"
-     util "aviation/")
+   (v = zero IFF w = zero) AND
+    (w /= zero IFF (norm(v) = 1 AND v = (1 / norm(w)) * w))}" util
+     "aviation/")
     (Vect2 const-decl "{vv: Vect2 | vv`x = x AND vv`y = y}" util
      "aviation/")
     (nnreal_times_nnreal_is_nnreal application-judgement "nnreal"
@@ -540,7 +551,6 @@
     (real_times_real_is_real application-judgement "real" reals nil)
     (vs const-decl "real" Velocity "aviation/")
     (trk const-decl "nnreal_lt_2pi" track "aviation/")
-    (nnreal_lt_2pi nonempty-type-eq-decl nil atan2 "trig/")
     (pi const-decl "{x: real | x > 2 AND x < 4 AND cos(x / 2) = 0}"
      pi_def "trig/")
     (cos const-decl "real" sincos_def "trig/")
@@ -691,7 +701,1282 @@
     (boolean nonempty-type-decl nil booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (TRUE const-decl "bool" booleans nil))
-   nil))
+   nil
+   (kinematic_gs_bands subtype "kinematic_gs_bands.kvb"
+    "{RL | real_bands.strictly_increasing_real?(real_bands.RL)}")))
+ (kinematic_gs_bands_def_pre_elim1 0
+  (kinematic_gs_bands_def_pre_elim1-1 nil 3740912831
+   ("" (skeep 1 t)
+    (("" (hide -1 -2 -6)
+      (("" (grind)
+        (("" (lemma "sqrt_gt_0" ("nnx" "vo`x * vo`x + vo`y * vo`y"))
+          (("" (grind) nil nil)) nil))
+        nil))
+      nil))
+    nil)
+   ((Vect3 type-eq-decl nil vectors_3D_def "vectors/")
+    (* const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (nonneg_real nonempty-type-eq-decl nil real_types nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (sqrt_gt_0 formula-decl nil sqrt "reals/")
+    (real_times_real_is_real application-judgement "real" reals nil)
+    (real_plus_real_is_real application-judgement "real" reals nil)
+    (sqv_cont name-judgement "continuous_vr_fun" vect_cont_2D
+     "vect_analysis/")
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (vect2 const-decl "Vect2" vect_3D_2D "vectors/")
+    (* const-decl "real" vectors_2D "vectors/")
+    (sqv const-decl "nnreal" vectors_2D "vectors/")
+    (norm const-decl "nnreal" vectors_2D "vectors/")
+    (gs const-decl "nnreal" Velocity "aviation/"))
+   shostak))
+ (kinematic_gs_bands_def_pre_elim2 0
+  (kinematic_gs_bands_def_pre_elim2-1 nil 3740913057
+   ("" (skeep 1 t)
+    (("" (split)
+      (("1" (expand "gsAccel")
+        (("1" (split)
+          (("1" (grind) (("1" (apply-extensionality) nil nil)) nil)
+           ("2" (lift-if)
+            (("2" (split)
+              (("1" (flatten)
+                (("1" (expand* "mkTrkGsVs" "trk" "gs")
+                  (("1" (use "norm_xy_eq_0")
+                    (("1" (assert)
+                      (("1" (flatten)
+                        (("1" (replace -1)
+                          (("1" (replace -2)
+                            (("1" (hide -3 -4 -5)
+                              (("1"
+                                (expand "vect2")
+                                (("1"
+                                  (case-replace "0 * sin(0) = 0")
+                                  (("1"
+                                    (apply-extensionality)
+                                    (("1"
+                                      (expand "vs")
+                                      (("1" (propax) nil nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (hide-all-but 1)
+                                    (("2" (grind) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (flatten)
+                (("2" (expand* "mkTrkGsVs" "trk" "vs")
+                  (("2" (case "vect2(vo)`x = 0 AND vect2(vo)`y = 0")
+                    (("1" (hide-all-but (-1 1)) (("1" (grind) nil nil))
+                      nil)
+                     ("2" (lift-if)
+                      (("2" (split 3)
+                        (("1" (flatten)
+                          (("1" (hide-all-but (-1 -2 2))
+                            (("1" (grind) nil nil)) nil))
+                          nil)
+                         ("2" (flatten)
+                          (("2" (hide-all-but 2)
+                            (("2" (expand* "track" "vect2")
+                              (("2"
+                                (use "sin_atan2")
+                                (("2"
+                                  (reveal 1)
+                                  (("2"
+                                    (split -1)
+                                    (("1"
+                                      (replace -1)
+                                      (("1"
+                                        (hide -1)
+                                        (("1"
+                                          (use "cos_atan2")
+                                          (("1"
+                                            (split -1)
+                                            (("1"
+                                              (replace -1)
+                                              (("1"
+                                                (hide -)
+                                                (("1"
+                                                  (expand "vect2")
+                                                  (("1"
+                                                    (split)
+                                                    (("1"
+                                                      (lift-if)
+                                                      (("1"
+                                                        (split)
+                                                        (("1"
+                                                          (flatten)
+                                                          (("1"
+                                                            (split)
+                                                            (("1"
+                                                              (flatten)
+                                                              (("1"
+                                                                (grind)
+                                                                (("1"
+                                                                  (apply-extensionality)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (flatten)
+                                                              (("2"
+                                                                (grind)
+                                                                (("2"
+                                                                  (lemma
+                                                                   "sqrt_sq_neg"
+                                                                   ("x"
+                                                                    "vo`x"))
+                                                                  (("2"
+                                                                    (split)
+                                                                    (("1"
+                                                                      (expand
+                                                                       "sq")
+                                                                      (("1"
+                                                                        (replace
+                                                                         -1)
+                                                                        (("1"
+                                                                          (apply-extensionality)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (assert)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil)
+                                                         ("2"
+                                                          (flatten)
+                                                          (("2"
+                                                            (assert)
+                                                            (("2"
+                                                              (lift-if)
+                                                              (("2"
+                                                                (split)
+                                                                (("1"
+                                                                  (flatten)
+                                                                  (("1"
+                                                                    (grind)
+                                                                    (("1"
+                                                                      (case-replace
+                                                                       "(vo`x / vo`y / sqrt(1 + vo`x / vo`y * (vo`x / vo`y))) = vo`x / sqrt(vo`y * vo`y + vo`x * vo`x)")
+                                                                      (("1"
+                                                                        (case-replace
+                                                                         "(1 / sqrt(1 + vo`x / vo`y * (vo`x / vo`y))) = vo`y / sqrt(vo`y * vo`y + vo`x * vo`x)")
+                                                                        (("1"
+                                                                          (apply-extensionality)
+                                                                          nil
+                                                                          nil)
+                                                                         ("2"
+                                                                          (hide-all-but
+                                                                           1)
+                                                                          (("2"
+                                                                            (use
+                                                                             "cross_mult")
+                                                                            (("2"
+                                                                              (replace
+                                                                               -1)
+                                                                              (("2"
+                                                                                (hide
+                                                                                 -1)
+                                                                                (("2"
+                                                                                  (lemma
+                                                                                   "sqrt_scal"
+                                                                                   ("a"
+                                                                                    "vo`y"
+                                                                                    "nnx"
+                                                                                    "1 + vo`x / vo`y * (vo`x / vo`y)"))
+                                                                                  (("2"
+                                                                                    (case-replace
+                                                                                     "abs(vo`y) = vo`y")
+                                                                                    (("1"
+                                                                                      (replace
+                                                                                       -2)
+                                                                                      (("1"
+                                                                                        (grind)
+                                                                                        nil
+                                                                                        nil))
+                                                                                      nil)
+                                                                                     ("2"
+                                                                                      (reveal
+                                                                                       -4)
+                                                                                      (("2"
+                                                                                        (hide-all-but
+                                                                                         (-1
+                                                                                          1))
+                                                                                        (("2"
+                                                                                          (grind)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil)
+                                                                       ("2"
+                                                                        (hide-all-but
+                                                                         1)
+                                                                        (("2"
+                                                                          (case
+                                                                           "(1 * sqrt(vo`y * vo`y + vo`x * vo`x) =
+	vo`y * sqrt(1 + vo`x / vo`y * (vo`x / vo`y)))")
+                                                                          (("1"
+                                                                            (grind)
+                                                                            nil
+                                                                            nil)
+                                                                           ("2"
+                                                                            (hide
+                                                                             2)
+                                                                            (("2"
+                                                                              (lemma
+                                                                               "sqrt_scal"
+                                                                               ("a"
+                                                                                "vo`y"
+                                                                                "nnx"
+                                                                                "1 + vo`x / vo`y * (vo`x / vo`y)"))
+                                                                              (("2"
+                                                                                (case-replace
+                                                                                 "abs(vo`y) = vo`y")
+                                                                                (("1"
+                                                                                  (replace
+                                                                                   -2)
+                                                                                  (("1"
+                                                                                    (grind)
+                                                                                    nil
+                                                                                    nil))
+                                                                                  nil)
+                                                                                 ("2"
+                                                                                  (reveal
+                                                                                   -1)
+                                                                                  (("2"
+                                                                                    (hide-all-but
+                                                                                     (-1
+                                                                                      1))
+                                                                                    (("2"
+                                                                                      (grind)
+                                                                                      nil
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil)
+                                                                       ("3"
+                                                                        (hide
+                                                                         1)
+                                                                        (("3"
+                                                                          (lemma
+                                                                           "sqrt_eq_0"
+                                                                           ("nnx"
+                                                                            "vo`x * vo`x + vo`y * vo`y"))
+                                                                          (("3"
+                                                                            (assert)
+                                                                            nil
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("2"
+                                                                  (flatten)
+                                                                  (("2"
+                                                                    (case
+                                                                     "-(vo`x / vo`y / sqrt(1 + sq(vo`x / vo`y))) = vo`x / sqrt(vo`y * vo`y + vo`x * vo`x)")
+                                                                    (("1"
+                                                                      (case
+                                                                       "(-1 / sqrt(1 + sq(vo`x / vo`y))) = vo`y / sqrt(vo`y * vo`y + vo`x * vo`x)")
+                                                                      (("1"
+                                                                        (replace
+                                                                         -1
+                                                                         2)
+                                                                        (("1"
+                                                                          (replace
+                                                                           -2
+                                                                           2)
+                                                                          (("1"
+                                                                            (hide
+                                                                             -)
+                                                                            (("1"
+                                                                              (grind)
+                                                                              (("1"
+                                                                                (apply-extensionality)
+                                                                                nil
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil)
+                                                                       ("2"
+                                                                        (hide-all-but
+                                                                         1)
+                                                                        (("2"
+                                                                          (use
+                                                                           "cross_mult")
+                                                                          (("2"
+                                                                            (replace
+                                                                             -1)
+                                                                            (("2"
+                                                                              (lemma
+                                                                               "sqrt_scal"
+                                                                               ("a"
+                                                                                "vo`y"
+                                                                                "nnx"
+                                                                                "1 + sq(vo`x / vo`y)"))
+                                                                              (("2"
+                                                                                (case-replace
+                                                                                 "abs(vo`y) = -vo`y")
+                                                                                (("1"
+                                                                                  (grind)
+                                                                                  nil
+                                                                                  nil)
+                                                                                 ("2"
+                                                                                  (hide-all-but
+                                                                                   1)
+                                                                                  (("2"
+                                                                                    (reveal
+                                                                                     2)
+                                                                                    (("2"
+                                                                                      (grind)
+                                                                                      nil
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (hide-all-but
+                                                                       1)
+                                                                      (("2"
+                                                                        (case
+                                                                         "(-1 * sqrt(vo`y * vo`y + vo`x * vo`x) =
+	vo`y * sqrt(1 + vo`x / vo`y * (vo`x / vo`y)))")
+                                                                        (("1"
+                                                                          (grind)
+                                                                          nil
+                                                                          nil)
+                                                                         ("2"
+                                                                          (hide
+                                                                           2)
+                                                                          (("2"
+                                                                            (lemma
+                                                                             "sqrt_scal"
+                                                                             ("a"
+                                                                              "vo`y"
+                                                                              "nnx"
+                                                                              "1 + sq(vo`x / vo`y)"))
+                                                                            (("2"
+                                                                              (case-replace
+                                                                               "abs(vo`y) = -vo`y")
+                                                                              (("1"
+                                                                                (grind)
+                                                                                nil
+                                                                                nil)
+                                                                               ("2"
+                                                                                (reveal
+                                                                                 2)
+                                                                                (("2"
+                                                                                  (grind)
+                                                                                  nil
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("3"
+                                                                      (hide
+                                                                       2)
+                                                                      (("3"
+                                                                        (lemma
+                                                                         "sqrt_eq_0"
+                                                                         ("nnx"
+                                                                          "vo`x * vo`x + vo`y * vo`y"))
+                                                                        (("3"
+                                                                          (grind)
+                                                                          (("3"
+                                                                            (case
+                                                                             "vo`x * vo`x = 0")
+                                                                            (("1"
+                                                                              (lemma
+                                                                               "sq_eq_0"
+                                                                               ("a"
+                                                                                "vo`x"))
+                                                                              (("1"
+                                                                                (grind)
+                                                                                nil
+                                                                                nil))
+                                                                              nil)
+                                                                             ("2"
+                                                                              (case
+                                                                               "vo`x * vo`x >=0 AND vo`y * vo`y >= 0")
+                                                                              (("1"
+                                                                                (flatten)
+                                                                                (("1"
+                                                                                  (grind)
+                                                                                  nil
+                                                                                  nil))
+                                                                                nil)
+                                                                               ("2"
+                                                                                (hide-all-but
+                                                                                 1)
+                                                                                (("2"
+                                                                                  (lemma
+                                                                                   "sq_pos"
+                                                                                   ("a"
+                                                                                    "vo`x"))
+                                                                                  (("2"
+                                                                                    (lemma
+                                                                                     "sq_pos"
+                                                                                     ("a"
+                                                                                      "vo`y"))
+                                                                                    (("2"
+                                                                                      (grind)
+                                                                                      nil
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil)
+                                                     ("2"
+                                                      (lift-if)
+                                                      (("2"
+                                                        (assert)
+                                                        (("2"
+                                                          (lift-if)
+                                                          (("2"
+                                                            (split)
+                                                            (("1"
+                                                              (flatten)
+                                                              (("1"
+                                                                (expand*
+                                                                 "gs"
+                                                                 "norm"
+                                                                 "vect2"
+                                                                 "sqv"
+                                                                 "*")
+                                                                (("1"
+                                                                  (case
+                                                                   "(vo`x / vo`y / sqrt(1 + sq(vo`x / vo`y))) = vo`x / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                  (("1"
+                                                                    (replace
+                                                                     -1)
+                                                                    (("1"
+                                                                      (case
+                                                                       "(1 / sqrt(1 + sq(vo`x / vo`y))) = vo`y / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                      (("1"
+                                                                        (replace
+                                                                         -1)
+                                                                        (("1"
+                                                                          (apply-extensionality)
+                                                                          nil
+                                                                          nil))
+                                                                        nil)
+                                                                       ("2"
+                                                                        (hide-all-but
+                                                                         (-2
+                                                                          1))
+                                                                        (("2"
+                                                                          (use
+                                                                           "cross_mult")
+                                                                          (("2"
+                                                                            (replace
+                                                                             -1)
+                                                                            (("2"
+                                                                              (lemma
+                                                                               "sqrt_scal"
+                                                                               ("a"
+                                                                                "vo`y"
+                                                                                "nnx"
+                                                                                "1 + sq(vo`x / vo`y)"))
+                                                                              (("2"
+                                                                                (case-replace
+                                                                                 "abs(vo`y) = vo`y")
+                                                                                (("1"
+                                                                                  (grind)
+                                                                                  nil
+                                                                                  nil)
+                                                                                 ("2"
+                                                                                  (grind)
+                                                                                  nil
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil)
+                                                                   ("2"
+                                                                    (hide
+                                                                     2
+                                                                     3)
+                                                                    (("2"
+                                                                      (use
+                                                                       "cross_mult")
+                                                                      (("2"
+                                                                        (replace
+                                                                         -1)
+                                                                        (("2"
+                                                                          (lemma
+                                                                           "sqrt_scal"
+                                                                           ("a"
+                                                                            "vo`y"
+                                                                            "nnx"
+                                                                            "1 + sq(vo`x / vo`y)"))
+                                                                          (("2"
+                                                                            (case-replace
+                                                                             "abs(vo`y) = vo`y")
+                                                                            (("1"
+                                                                              (grind)
+                                                                              nil
+                                                                              nil)
+                                                                             ("2"
+                                                                              (grind)
+                                                                              nil
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil)
+                                                                   ("3"
+                                                                    (grind)
+                                                                    nil
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (flatten)
+                                                              (("2"
+                                                                (expand*
+                                                                 "gs"
+                                                                 "norm"
+                                                                 "vect2"
+                                                                 "sqv"
+                                                                 "*")
+                                                                (("2"
+                                                                  (case
+                                                                   "-(vo`x / vo`y / sqrt(1 + sq(vo`x / vo`y))) = vo`x / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                  (("1"
+                                                                    (replace
+                                                                     -1)
+                                                                    (("1"
+                                                                      (case
+                                                                       "(-1 / sqrt(1 + sq(vo`x / vo`y))) = vo`y / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                      (("1"
+                                                                        (replace
+                                                                         -1)
+                                                                        (("1"
+                                                                          (apply-extensionality)
+                                                                          nil
+                                                                          nil))
+                                                                        nil)
+                                                                       ("2"
+                                                                        (hide-all-but
+                                                                         (1
+                                                                          2))
+                                                                        (("2"
+                                                                          (use
+                                                                           "cross_mult")
+                                                                          (("2"
+                                                                            (replace
+                                                                             -1)
+                                                                            (("2"
+                                                                              (lemma
+                                                                               "sqrt_scal"
+                                                                               ("a"
+                                                                                "vo`y"
+                                                                                "nnx"
+                                                                                "1 + sq(vo`x / vo`y)"))
+                                                                              (("2"
+                                                                                (grind)
+                                                                                nil
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil)
+                                                                   ("2"
+                                                                    (hide
+                                                                     3
+                                                                     4)
+                                                                    (("2"
+                                                                      (lemma
+                                                                       "sqrt_scal"
+                                                                       ("a"
+                                                                        "vo`y"
+                                                                        "nnx"
+                                                                        "1 + sq(vo`x / vo`y)"))
+                                                                      (("2"
+                                                                        (grind)
+                                                                        nil
+                                                                        nil))
+                                                                      nil))
+                                                                    nil)
+                                                                   ("3"
+                                                                    (grind)
+                                                                    nil
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil)
+                                             ("2"
+                                              (hide 3)
+                                              (("2" (grind) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("2"
+                                      (expand "vect2")
+                                      (("2"
+                                        (hide 3)
+                                        (("2" (grind) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (expand "gsAccel")
+        (("2" (split)
+          (("1" (grind) (("1" (apply-extensionality) nil nil)) nil)
+           ("2" (lift-if)
+            (("2" (split)
+              (("1" (flatten)
+                (("1" (expand* "mkTrkGsVs" "trk" "gs" "vs")
+                  (("1" (use "norm_xy_eq_0")
+                    (("1" (assert)
+                      (("1" (flatten)
+                        (("1" (hide -3 -4 -5)
+                          (("1" (replace -1)
+                            (("1" (replace -2)
+                              (("1"
+                                (case-replace "0 * sin(0) = 0")
+                                (("1"
+                                  (expand "vect2")
+                                  (("1"
+                                    (apply-extensionality)
+                                    nil
+                                    nil))
+                                  nil)
+                                 ("2"
+                                  (hide-all-but 1)
+                                  (("2" (grind) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (flatten)
+                (("2" (expand* "mkTrkGsVs" "trk" "vs")
+                  (("2" (case "vect2(vo)`x = 0 AND vect2(vo)`y = 0")
+                    (("1" (hide-all-but (-1 1)) (("1" (grind) nil nil))
+                      nil)
+                     ("2" (lift-if)
+                      (("2" (split 3)
+                        (("1" (flatten)
+                          (("1" (hide-all-but (-1 -2 2))
+                            (("1" (grind) nil nil)) nil))
+                          nil)
+                         ("2" (flatten)
+                          (("2" (hide-all-but 2)
+                            (("2" (expand* "track" "vect2")
+                              (("2"
+                                (use "sin_atan2")
+                                (("2"
+                                  (reveal 1)
+                                  (("2"
+                                    (expand "vect2")
+                                    (("2"
+                                      (split -1)
+                                      (("1"
+                                        (replace -1)
+                                        (("1"
+                                          (use "cos_atan2")
+                                          (("1"
+                                            (split -1)
+                                            (("1"
+                                              (replace -1)
+                                              (("1"
+                                                (hide -)
+                                                (("1"
+                                                  (lift-if)
+                                                  (("1"
+                                                    (split)
+                                                    (("1"
+                                                      (split)
+                                                      (("1"
+                                                        (flatten)
+                                                        (("1"
+                                                          (split)
+                                                          (("1"
+                                                            (flatten)
+                                                            (("1"
+                                                              (grind)
+                                                              (("1"
+                                                                (apply-extensionality)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil)
+                                                           ("2"
+                                                            (flatten)
+                                                            (("2"
+                                                              (grind)
+                                                              (("2"
+                                                                (lemma
+                                                                 "sqrt_sq_neg"
+                                                                 ("x"
+                                                                  "vo`x"))
+                                                                (("2"
+                                                                  (split)
+                                                                  (("1"
+                                                                    (expand
+                                                                     "sq")
+                                                                    (("1"
+                                                                      (replace
+                                                                       -1)
+                                                                      (("1"
+                                                                        (apply-extensionality)
+                                                                        nil
+                                                                        nil))
+                                                                      nil))
+                                                                    nil)
+                                                                   ("2"
+                                                                    (assert)
+                                                                    nil
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil)
+                                                       ("2"
+                                                        (flatten)
+                                                        (("2"
+                                                          (assert)
+                                                          (("2"
+                                                            (lift-if)
+                                                            (("2"
+                                                              (split)
+                                                              (("1"
+                                                                (flatten)
+                                                                (("1"
+                                                                  (expand*
+                                                                   "gs"
+                                                                   "norm"
+                                                                   "vect2"
+                                                                   "sqv"
+                                                                   "*")
+                                                                  (("1"
+                                                                    (case
+                                                                     "(vo`x / vo`y / sqrt(1 + sq(vo`x / vo`y))) = vo`x / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                    (("1"
+                                                                      (replace
+                                                                       -1)
+                                                                      (("1"
+                                                                        (case
+                                                                         "(1 / sqrt(1 + sq(vo`x / vo`y))) = vo`y / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                        (("1"
+                                                                          (replace
+                                                                           -1)
+                                                                          (("1"
+                                                                            (apply-extensionality)
+                                                                            nil
+                                                                            nil))
+                                                                          nil)
+                                                                         ("2"
+                                                                          (hide-all-but
+                                                                           (-2
+                                                                            1))
+                                                                          (("2"
+                                                                            (lemma
+                                                                             "sqrt_scal"
+                                                                             ("a"
+                                                                              "vo`y"
+                                                                              "nnx"
+                                                                              "1 + sq(vo`x / vo`y)"))
+                                                                            (("2"
+                                                                              (grind)
+                                                                              nil
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (hide-all-but
+                                                                       (-1
+                                                                        1))
+                                                                      (("2"
+                                                                        (lemma
+                                                                         "sqrt_scal"
+                                                                         ("a"
+                                                                          "vo`y"
+                                                                          "nnx"
+                                                                          "1 + sq(vo`x / vo`y)"))
+                                                                        (("2"
+                                                                          (grind)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("3"
+                                                                      (grind)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil)
+                                                               ("2"
+                                                                (flatten)
+                                                                (("2"
+                                                                  (expand*
+                                                                   "gs"
+                                                                   "norm"
+                                                                   "vect2"
+                                                                   "sqv"
+                                                                   "*")
+                                                                  (("2"
+                                                                    (case
+                                                                     "-(vo`x / vo`y / sqrt(1 + sq(vo`x / vo`y))) = vo`x / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                    (("1"
+                                                                      (replace
+                                                                       -1)
+                                                                      (("1"
+                                                                        (case
+                                                                         "(-1 / sqrt(1 + sq(vo`x / vo`y))) = vo`y / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                        (("1"
+                                                                          (replace
+                                                                           -1)
+                                                                          (("1"
+                                                                            (apply-extensionality)
+                                                                            nil
+                                                                            nil))
+                                                                          nil)
+                                                                         ("2"
+                                                                          (hide-all-but
+                                                                           (2
+                                                                            1))
+                                                                          (("2"
+                                                                            (lemma
+                                                                             "sqrt_scal"
+                                                                             ("a"
+                                                                              "vo`y"
+                                                                              "nnx"
+                                                                              "1 + sq(vo`x / vo`y)"))
+                                                                            (("2"
+                                                                              (grind)
+                                                                              nil
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (hide-all-but
+                                                                       (2
+                                                                        1))
+                                                                      (("2"
+                                                                        (lemma
+                                                                         "sqrt_scal"
+                                                                         ("a"
+                                                                          "vo`y"
+                                                                          "nnx"
+                                                                          "1 + sq(vo`x / vo`y)"))
+                                                                        (("2"
+                                                                          (grind)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("3"
+                                                                      (grind)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil)
+                                                     ("2"
+                                                      (assert)
+                                                      (("2"
+                                                        (lift-if)
+                                                        (("2"
+                                                          (split)
+                                                          (("1"
+                                                            (flatten)
+                                                            (("1"
+                                                              (expand*
+                                                               "gs"
+                                                               "norm"
+                                                               "vect2"
+                                                               "sqv"
+                                                               "*")
+                                                              (("1"
+                                                                (case
+                                                                 "(vo`x / vo`y / sqrt(1 + sq(vo`x / vo`y))) = vo`x / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                (("1"
+                                                                  (replace
+                                                                   -1)
+                                                                  (("1"
+                                                                    (case
+                                                                     "(1 / sqrt(1 + sq(vo`x / vo`y))) = vo`y / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                    (("1"
+                                                                      (replace
+                                                                       -1)
+                                                                      (("1"
+                                                                        (apply-extensionality)
+                                                                        nil
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (hide-all-but
+                                                                       (-2
+                                                                        1))
+                                                                      (("2"
+                                                                        (lemma
+                                                                         "sqrt_scal"
+                                                                         ("a"
+                                                                          "vo`y"
+                                                                          "nnx"
+                                                                          "1 + sq(vo`x / vo`y)"))
+                                                                        (("2"
+                                                                          (grind)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("2"
+                                                                  (hide-all-but
+                                                                   (-1
+                                                                    1))
+                                                                  (("2"
+                                                                    (lemma
+                                                                     "sqrt_scal"
+                                                                     ("a"
+                                                                      "vo`y"
+                                                                      "nnx"
+                                                                      "1 + sq(vo`x / vo`y)"))
+                                                                    (("2"
+                                                                      (grind)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("3"
+                                                                  (grind)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil)
+                                                           ("2"
+                                                            (flatten)
+                                                            (("2"
+                                                              (expand*
+                                                               "gs"
+                                                               "norm"
+                                                               "vect2"
+                                                               "sqv"
+                                                               "*")
+                                                              (("2"
+                                                                (case
+                                                                 "-(vo`x / vo`y / sqrt(1 + sq(vo`x / vo`y))) = vo`x / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                (("1"
+                                                                  (replace
+                                                                   -1)
+                                                                  (("1"
+                                                                    (case
+                                                                     "(-1 / sqrt(1 + sq(vo`x / vo`y))) = vo`y / sqrt(vo`x * vo`x + vo`y * vo`y)")
+                                                                    (("1"
+                                                                      (replace
+                                                                       -1)
+                                                                      (("1"
+                                                                        (apply-extensionality)
+                                                                        nil
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (hide-all-but
+                                                                       (2
+                                                                        1))
+                                                                      (("2"
+                                                                        (lemma
+                                                                         "sqrt_scal"
+                                                                         ("a"
+                                                                          "vo`y"
+                                                                          "nnx"
+                                                                          "1 + sq(vo`x / vo`y)"))
+                                                                        (("2"
+                                                                          (grind)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("2"
+                                                                  (hide-all-but
+                                                                   (2
+                                                                    1))
+                                                                  (("2"
+                                                                    (lemma
+                                                                     "sqrt_scal"
+                                                                     ("a"
+                                                                      "vo`y"
+                                                                      "nnx"
+                                                                      "1 + sq(vo`x / vo`y)"))
+                                                                    (("2"
+                                                                      (grind)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("3"
+                                                                  (grind)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil)
+                                             ("2"
+                                              (hide -1 3)
+                                              (("2" (grind) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (hide 3)
+                                        (("2" (grind) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((nnreal_plus_nnreal_is_nnreal application-judgement "nnreal"
+     real_types nil)
+    (posreal_times_posreal_is_posreal application-judgement "posreal"
+     real_types nil)
+    (gsAccel const-decl "[Vect3, Vect3]" kinematics_gs_accel
+     "aviation/")
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (mult_divides1 application-judgement "(divides(n))" divides nil)
+    (nnint_times_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (even_times_int_is_even application-judgement "even_int" integers
+     nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (even_plus_even_is_even application-judgement "even_int" integers
+     nil)
+    (sqrt_0 formula-decl nil sqrt "reals/")
+    (sin_atan2 formula-decl nil atan2 "trig/")
+    (sqrt_pos application-judgement "posreal" sqrt "reals/")
+    (sqrt_square formula-decl nil sqrt "reals/")
+    (minus_real_is_real application-judgement "real" reals nil)
+    (- const-decl "[numfield -> numfield]" number_fields nil)
+    (sq const-decl "nonneg_real" sq "reals/")
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (sqrt_sq_neg formula-decl nil sqrt "reals/")
+    (nnreal_plus_posreal_is_posreal application-judgement "posreal"
+     real_types nil)
+    (real_div_nzreal_is_real application-judgement "real" reals nil)
+    (posreal_plus_nnreal_is_posreal application-judgement "posreal"
+     real_types nil)
+    (posreal_div_posreal_is_posreal application-judgement "posreal"
+     real_types nil)
+    (nzreal_div_nzreal_is_nzreal application-judgement "nzreal"
+     real_types nil)
+    (sqrt_eq_0 formula-decl nil sqrt "reals/")
+    (cross_mult formula-decl nil real_props nil)
+    (nonzero_real nonempty-type-eq-decl nil reals nil)
+    (abs const-decl "{n: nonneg_real | n >= m AND n >= -m}" real_defs
+         nil)
+    (sqrt_scal formula-decl nil sqrt "reals/")
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (sqrt const-decl "{nnz: nnreal | nnz * nnz = nnx}" sqrt "reals/")
+    (nnreal type-eq-decl nil real_types nil)
+    (nonneg_real nonempty-type-eq-decl nil real_types nil)
+    (>= const-decl "bool" reals nil)
+    (/ const-decl "[numfield, nznum -> numfield]" number_fields nil)
+    (nznum nonempty-type-eq-decl nil number_fields nil)
+    (/= const-decl "boolean" notequal nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (sq_eq_0 formula-decl nil sq "reals/")
+    (sq_pos formula-decl nil sq "reals/")
+    (minus_odd_is_odd application-judgement "odd_int" integers nil)
+    (cos_atan2 formula-decl nil atan2 "trig/")
+    (track const-decl "nnreal_lt_2pi" track "aviation/")
+    (norm_xy_eq_0 formula-decl nil vectors_2D "vectors/")
+    (Vect2 type-eq-decl nil vectors_2D_def "vectors/")
+    (Vector type-eq-decl nil vectors_2D "vectors/")
+    (vs const-decl "real" Velocity "aviation/")
+    (Velocity type-eq-decl nil Velocity "aviation/")
+    (sin const-decl "real" sincos_def "trig/")
+    (* const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (sin_range application-judgement "real_abs_le1" sincos "trig/")
+    (cos_range application-judgement "real_abs_le1" sincos "trig/")
+    (mkTrkGsVs const-decl "Velocity" Velocity "aviation/")
+    (gs const-decl "nnreal" Velocity "aviation/")
+    (trk const-decl "nnreal_lt_2pi" track "aviation/")
+    (vect2 const-decl "Vect2" vect_3D_2D "vectors/")
+    (* const-decl "real" vectors_2D "vectors/")
+    (sqv const-decl "nnreal" vectors_2D "vectors/")
+    (norm const-decl "nnreal" vectors_2D "vectors/")
+    (Vect2 const-decl "{vv: Vect2 | vv`x = x AND vv`y = y}" util
+     "aviation/")
+    (Hat const-decl "{v: Vect2 |
+   (v = zero IFF w = zero) AND
+    (w /= zero IFF (norm(v) = 1 AND v = (1 / norm(w)) * w))}" util
+     "aviation/")
+    (comp_zero_x formula-decl nil vectors_2D "vectors/")
+    (comp_zero_y formula-decl nil vectors_2D "vectors/")
+    (* const-decl "Vector" vectors_2D "vectors/")
+    (+ const-decl "Vector" vectors_2D "vectors/")
+    (Vect3 const-decl "{vv: Vect3 | vect2(vv) = w AND vv`z = z}" util
+     "aviation/")
+    (gsAccelPos const-decl "Vect3" kinematics_gs_accel "aviation/")
+    (minus_nzreal_is_nzreal application-judgement "nzreal" real_types
+     nil)
+    (real_plus_real_is_real application-judgement "real" reals nil)
+    (nnreal_times_nnreal_is_nnreal application-judgement "nnreal"
+     real_types nil)
+    (sqv_cont name-judgement "continuous_vr_fun" vect_cont_2D
+     "vect_analysis/")
+    (real_times_real_is_real application-judgement "real" reals nil)
+    (nzreal_times_nzreal_is_nzreal application-judgement "nzreal"
+     real_types nil)
+    (posrat_div_posrat_is_posrat application-judgement "posrat"
+     rationals nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (Vect3 type-eq-decl nil vectors_3D_def "vectors/"))
+   shostak))
  (kinematic_gs_bands_def 0
   (kinematic_gs_bands_def-4 nil 3633951483
    ("" (skeep*)
@@ -1348,31 +2633,20 @@
      kinematic_gs_bands nil)
     (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (intersect def-decl "{rl: list[RealBand] |
-         (length(rl) > 0 IMPLIES
-           (min <= nth(rl, 0)`lb AND nth(rl, length(rl) - 1)`ub <= max))
-          AND
-          (FORALL (r: real):
-             (min <= r AND r <= max) IMPLIES
-              ((EXISTS (j: below(length(RL))): in?(nth(RL, j), r)) IFF
-                (EXISTS (j: below(length(rl))): in?(nth(rl, j), r))))}"
+   (length(rl) > 0 IMPLIES
+     (min <= nth(rl, 0)`lb AND nth(rl, length(rl) - 1)`ub <= max))
+    AND
+    FORALL (r: real):
+      (min <= r AND r <= max) IMPLIES
+       ((EXISTS (j: below(length(RL))): in?(nth(RL, j), r)) IFF
+         (EXISTS (j: below(length(rl))): in?(nth(rl, j), r)))}"
      real_bands nil)
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_div_nzreal_is_real application-judgement "real" reals nil)
     (kinematic_bands_combine_def formula-decl nil combine_bands nil)
-    (MaxUp skolem-const-decl
-     "{k: int | ceiling((maxgs - gs(vo)) / step) <= k AND 0 <= k}"
-     kinematic_gs_bands nil)
-    (MaxDown skolem-const-decl
-     "{k: int | ceiling((gs(vo) - mings) / step) <= k AND 0 <= k}"
-     kinematic_gs_bands nil)
     (div_mult_pos_le2 formula-decl nil real_props nil)
     (minus_odd_is_odd application-judgement "odd_int" integers nil)
-    (Downfun skolem-const-decl "[nnreal -> [Vect3, Vect3]]"
-     kinematic_gs_bands nil)
-    (timestep skolem-const-decl "posreal" kinematic_gs_bands nil)
     (conflict_steps_eq formula-decl nil combine_bands nil)
-    (Upfun skolem-const-decl "[nnreal -> [Vect3, Vect3]]"
-     kinematic_gs_bands nil)
     (int_times_even_is_even application-judgement "even_int" integers
      nil)
     (minus_even_is_even application-judgement "even_int" integers nil)
@@ -1387,7 +2661,6 @@
     (scalrb const-decl "RealBand" real_bands nil)
     (in? const-decl "bool" int_bands nil)
     (both_sides_times_pos_le1 formula-decl nil real_props nil)
-    (newgs skolem-const-decl "real" kinematic_gs_bands nil)
     (minus_int_is_int application-judgement "int" integers nil)
     (kinematic_bands_combine const-decl "list[IntBand]" combine_bands
      nil)
@@ -3272,7 +4545,6 @@
     (Vect3 type-eq-decl nil vectors_3D_def "vectors/")
     (Sign type-eq-decl nil sign "reals/")
     (zero const-decl "Vector" vectors_2D "vectors/")
-    (nnreal_lt_2pi nonempty-type-eq-decl nil atan2 "trig/")
     (sqv_cont name-judgement "continuous_vr_fun" vect_cont_2D
      "vect_analysis/")
     (kinematic_bands const-decl "(proper?(MaxN))" kinematic_bands nil)
@@ -5107,7 +6379,6 @@
     (Vect3 type-eq-decl nil vectors_3D_def "vectors/")
     (Sign type-eq-decl nil sign "reals/")
     (zero const-decl "Vector" vectors_2D "vectors/")
-    (nnreal_lt_2pi nonempty-type-eq-decl nil atan2 "trig/")
     (sqv_cont name-judgement "continuous_vr_fun" vect_cont_2D
      "vect_analysis/")
     (kinematic_bands const-decl "(proper?(MaxN))" kinematic_bands nil)
@@ -5184,9 +6455,9 @@
     (comp_zero_y formula-decl nil vectors_2D "vectors/")
     (comp_zero_x formula-decl nil vectors_2D "vectors/")
     (Hat const-decl "{v: Vect2 |
-         (v = zero IFF w = zero) AND
-          (w /= zero IFF (norm(v) = 1 AND v = (1 / norm(w)) * w))}"
-     util "aviation/")
+   (v = zero IFF w = zero) AND
+    (w /= zero IFF (norm(v) = 1 AND v = (1 / norm(w)) * w))}" util
+     "aviation/")
     (Vect2 const-decl "{vv: Vect2 | vv`x = x AND vv`y = y}" util
      "aviation/")
     (norm const-decl "nnreal" vectors_2D "vectors/")
@@ -5237,7 +6508,9 @@
     (TRUE const-decl "bool" booleans nil)
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_div_nzreal_is_real application-judgement "real" reals nil))
-   nil))
+   nil
+   (any_kinematic_gs_red subtype "kinematic_gs_bands.Downfun"
+    "{trajl | combine_bands.trajl(0) = (kinematic_gs_bands.so, kinematic_gs_bands.vo)}")))
  (any_kinematic_gs_red_TCC2 0
   (any_kinematic_gs_red_TCC2-2 nil 3639918763
    ("" (skeep*)
@@ -5289,9 +6562,9 @@
     (comp_zero_y formula-decl nil vectors_2D "vectors/")
     (comp_zero_x formula-decl nil vectors_2D "vectors/")
     (Hat const-decl "{v: Vect2 |
-         (v = zero IFF w = zero) AND
-          (w /= zero IFF (norm(v) = 1 AND v = (1 / norm(w)) * w))}"
-     util "aviation/")
+   (v = zero IFF w = zero) AND
+    (w /= zero IFF (norm(v) = 1 AND v = (1 / norm(w)) * w))}" util
+     "aviation/")
     (Vect2 const-decl "{vv: Vect2 | vv`x = x AND vv`y = y}" util
      "aviation/")
     (norm const-decl "nnreal" vectors_2D "vectors/")
@@ -5340,9 +6613,13 @@
     (TRUE const-decl "bool" booleans nil)
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_div_nzreal_is_real application-judgement "real" reals nil))
-   nil)
+   nil
+   (any_kinematic_gs_red subtype "kinematic_gs_bands.Upfun"
+    "{trajr | combine_bands.trajr(0) = (kinematic_gs_bands.so, kinematic_gs_bands.vo)}"))
   (any_kinematic_gs_red_TCC2-1 nil 3639917550
-   ("" (subtype-tcc) nil nil) nil nil))
+   ("" (subtype-tcc) nil nil) nil nil
+   (any_kinematic_gs_red subtype "kinematic_gs_bands.Upfun"
+    "{trajr | combine_bands.trajr(0) = (kinematic_gs_bands.so, kinematic_gs_bands.vo)}")))
  (any_kinematic_gs_red_TCC3 0
   (any_kinematic_gs_red_TCC3-1 nil 3639917550
    ("" (skeep*) (("" (assert) nil nil)) nil)
@@ -5361,7 +6638,9 @@
     (TRUE const-decl "bool" booleans nil)
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_div_nzreal_is_real application-judgement "real" reals nil))
-   nil))
+   nil
+   (any_kinematic_gs_red subtype "kinematic_gs_bands.AL"
+    "{AL | reals.>(list_props[int_bands.Aircraft].length(combine_bands.AL), 0)}")))
  (any_kinematic_gs_red_def_TCC1 0
   (any_kinematic_gs_red_def_TCC1-1 nil 3683461104
    ("" (skeep)
@@ -5379,7 +6658,10 @@
      real_props nil)
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_div_nzreal_is_real application-judgement "real" reals nil))
-   nil))
+   nil
+   (any_kinematic_gs_red_def subtype
+    "real_defs.max(floor_ceil.ceiling(number_fields./(((number_fields.-)(Velocity.gs(kinematic_gs_bands.vo), kinematic_gs_bands.mings)), kinematic_gs_bands.step)), 0)"
+    "nat")))
  (any_kinematic_gs_red_def_TCC2 0
   (any_kinematic_gs_red_def_TCC2-1 nil 3683461104
    ("" (skeep)
@@ -5399,7 +6681,10 @@
      real_props nil)
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_div_nzreal_is_real application-judgement "real" reals nil))
-   nil))
+   nil
+   (any_kinematic_gs_red_def subtype
+    "real_defs.max(floor_ceil.ceiling(number_fields./(((number_fields.-)(kinematic_gs_bands.maxgs, Velocity.gs(kinematic_gs_bands.vo))), kinematic_gs_bands.step)), 0)"
+    "nat")))
  (any_kinematic_gs_red_def 0
   (any_kinematic_gs_red_def-1 nil 3633968537
    ("" (skeep*)
@@ -6386,12 +7671,6 @@
     (scal const-decl "listn[RealBand](length[IntBand](L))" real_bands
      nil)
     (any_red_def formula-decl nil combine_bands nil)
-    (Upfun skolem-const-decl "[nnreal -> [Vect3, Vect3]]"
-     kinematic_gs_bands nil)
-    (Downfun skolem-const-decl "[nnreal -> [Vect3, Vect3]]"
-     kinematic_gs_bands nil)
-    (UnAdjB skolem-const-decl "listn[RealBand](length[IntBand](GsInt))"
-     kinematic_gs_bands nil)
     (scalrb const-decl "RealBand" real_bands nil)
     (both_sides_times_pos_le1 formula-decl nil real_props nil)
     (scal_intband_def2 formula-decl nil real_bands nil)
@@ -6440,7 +7719,9 @@
     (boolean nonempty-type-decl nil booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (TRUE const-decl "bool" booleans nil))
-   nil))
+   nil
+   (all_kinematic_gs_red_def subtype "0"
+    "below[length[RealBand](ktb)]")))
  (all_kinematic_gs_red_def_TCC2 0
   (all_kinematic_gs_red_def_TCC2-1 nil 3643385555
    ("" (skeep*) (("" (assert) nil nil)) nil)
@@ -6458,7 +7739,10 @@
     (boolean nonempty-type-decl nil booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (TRUE const-decl "bool" booleans nil))
-   nil))
+   nil
+   (all_kinematic_gs_red_def subtype
+    "(number_fields.-)(list_props[real_bands.RealBand].length(kinematic_gs_bands.ktb), 1)"
+    "below[length[RealBand](ktb)]")))
  (all_kinematic_gs_red_def 0
   (all_kinematic_gs_red_def-1 nil 3634295354
    ("" (skeep*)
@@ -6887,15 +8171,9 @@
     (real_minus_real_is_real application-judgement "real" reals nil)
     (real_div_nzreal_is_real application-judgement "real" reals nil)
     (all_red_def formula-decl nil combine_bands nil)
-    (Upfun skolem-const-decl "[nnreal -> [Vect3, Vect3]]"
-     kinematic_gs_bands nil)
-    (Downfun skolem-const-decl "[nnreal -> [Vect3, Vect3]]"
-     kinematic_gs_bands nil)
     (both_sides_times_pos_gt1 formula-decl nil real_props nil)
     (both_sides_times_pos_le1_imp formula-decl nil extra_real_props
      nil)
-    (downred skolem-const-decl "boolean" kinematic_gs_bands nil)
-    (upred skolem-const-decl "boolean" kinematic_gs_bands nil)
     (both_sides_times_pos_ge1_imp formula-decl nil extra_real_props
      nil)
     (* const-decl "[numfield, numfield -> numfield]" number_fields nil)

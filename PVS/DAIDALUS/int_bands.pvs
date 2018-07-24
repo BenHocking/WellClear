@@ -290,6 +290,12 @@ BEGIN
   % can fail. At the first step, it only checks the first linear velocity
   % against the first tangent. 
 
+  % traj is a fn over nnreal that returns a future pos/vel
+  % k is an nnint
+  % ts is a timestep
+  % si is the intruder position
+  % vi is the intruder velocity
+  % eps is a sign (+/- 1)
   repulsive_at(traj,k,ts,si,vi,eps): bool =
     IF k=0 THEN TRUE
     ELSE
@@ -411,23 +417,58 @@ BEGIN
   conflict_step(LOS,LOS2,useLOS2,B,T,B2,T2,so,vo,traj,ts,AL,most_urgent,
 		epsH,epsV,UseHCrit,UseVCrit)(k):bool =
          most_urgent(so,vo,AL)>=0 AND most_urgent(so,vo,AL)<length(AL) AND
-	 LET MI = nth(AL,most_urgent(so,vo,AL)) IN
+         % MI is the "urgent" aircraft (most important?)
+	 LET MI = nth(AL,most_urgent(so,vo,AL)) IN % MI relates to UseHCrit/UseVCrit
+         % Either there exists an aircraft that will conflict (relative to LOS) with
+         % the ownship in an integer multiple of steps (up to k*ts) between B and T...
+          % (cf. (first_los_step(LOS,traj,FirstLosK,ts,FirstLosN,AL)>=0 in
+          %   conflict_step_rew)
 	 ((EXISTS (j:upto(k),p:below(length(AL))): B<=j*ts AND j*ts<=T AND
+          % traj(j*ts)`1 is the new position at time j*ts
+          % traj(j*ts)`2 is the new velocity at time j*ts
+          % nth(AL,p)`s+(j*ts)*nth(AL,p)`v is the new position of aircraft p at time J*ts (velocity is assumed constant for other aircraft)
+          % nth(AL,p)`v is the velocity of aircraft p
   	  LOS(traj(j*ts)`1,traj(j*ts)`2,nth(AL,p)`s+(j*ts)*nth(AL,p)`v,nth(AL,p)`v))
+         % ...OR...
+         % if you're using "LOS2" there exists an aircraft that will conflict
+         % (relative to LOS2) with the ownship in an integer multiple of steps
+         % between B2 and T2...
+         % (cf. (useLOS2 AND first_los_step(LOS2,traj,SecLosK,ts,SecLosN,AL)>=0)
+         %   in conflict_step_rew)         
 	 OR
 	 (useLOS2 AND EXISTS (j:upto(k),p:below(length(AL))): B2<=j*ts AND j*ts<=T2 AND
   	  LOS2(traj(j*ts)`1,traj(j*ts)`2,nth(AL,p)`s+(j*ts)*nth(AL,p)`v,nth(AL,p)`v))
+         % ...OR...
+         % if you're using "HCrit" (h criteria), you're accelerating away in
+         % the plane
+         % (cf. (UseHCrit AND first_nonrepulsive_step(traj,0,ts,k,si,vi,epsH)>=0)
+         %   in conflict_step_rew)
          OR
   	 (UseHCrit AND (EXISTS (j:upto(k)): 
 	           (NOT repulsive_at(traj,j,ts,MI`s,MI`v,epsH))))
+         % ...OR...
+         % if you're using "VCrit", you're accelerating away vertically
+         % (cf. (UseVCrit AND first_nonvert_repul_step(traj,0,ts,k,si,vi,epsV)>=0)
+         %   in conflict_step_rew)
          OR
 	 (UseVCrit AND (EXISTS (j:upto(k)): 
 	           (NOT vert_repul_at(traj,j,ts,MI`s,MI`v,epsV))))
+         % ...OR...
+         % There exists an aircraft that will have loss-of-separation in the range
+         % [B,T] extrapolated after k*ts (functions traj_position and
+         % traj velocity extrapolate beyond their second argument (temporal)
+         % up to their third argument (also temporal)
+         % (cf. first_conflict_aircraft(CD,B,T,traj,k,ts,0,AL)>=0 expression in
+         %   conflict_step_rew)
          OR
 	 (EXISTS (p:below(length(AL)),t):
 	   B<=t AND t<=T AND k*ts<=t AND LOS(traj_position(traj,
                              k*ts,t),traj_velocity(traj,
                              k*ts,t),position(nth(AL,p)`s,nth(AL,p)`v,t),nth(AL,p)`v))
+         % ...OR...
+         % Samething as above if you're using LOS2
+         % (cf. (useLOS2 AND first_conflict_aircraft(CD2,B2,T2,traj,k,ts,0,AL)>=0)
+         %   in conflict_step_rew)
          OR
 	 (useLOS2 AND EXISTS (p:below(length(AL)),t):
 	   B2<=t AND t<=T2 AND k*ts<=t AND LOS2(traj_position(traj,
